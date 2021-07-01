@@ -19,13 +19,20 @@ public:
 	AMovingPlatform();
 
 	virtual void BeginPlay() override;
-	
+
 	virtual void Tick(float DeltaTime) override;
 
 protected:
 	////////// FUNCTIONS //////////
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(Category = "Movement", EditAnywhere)
 	float Speed = 100;
+
+	UPROPERTY(Category = "Movement", VisibleAnywhere)
+	FVector GlobalStartLocation;
+
+	UPROPERTY(Category = "Movement", VisibleAnywhere)
+	FVector GlobalTargetLocation;
+	
+	UPROPERTY(Category = "Movement", EditAnywhere, Meta = (MakeEditWidget = true))
+	FVector TargetLocation;
 };
-
-
