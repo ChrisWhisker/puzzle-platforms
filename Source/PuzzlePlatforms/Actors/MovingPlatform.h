@@ -22,7 +22,7 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-protected:
+private:
 	////////// FUNCTIONS //////////
 	UPROPERTY(Category = "Movement", EditAnywhere)
 	float Speed = 100;
