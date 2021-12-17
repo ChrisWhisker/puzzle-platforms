@@ -22,8 +22,18 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	void AddCharacterOnTrigger();
+
+	void RemoveCharacterOnTrigger();
+
 private:
 	////////// FUNCTIONS //////////
+	UPROPERTY(Category = "Activation", VisibleAnywhere)
+	int CharactersOnTrigger = 0;
+
+	UPROPERTY(Category = "Activation", EditAnywhere)
+	int RequiredCharacters = 0;
+	
 	UPROPERTY(Category = "Movement", EditAnywhere)
 	float Speed = 100;
 
@@ -32,7 +42,8 @@ private:
 
 	UPROPERTY(Category = "Movement", VisibleAnywhere)
 	FVector GlobalTargetLocation;
-	
+
 	UPROPERTY(Category = "Movement", EditAnywhere, Meta = (MakeEditWidget = true))
 	FVector TargetLocation;
+
 };
