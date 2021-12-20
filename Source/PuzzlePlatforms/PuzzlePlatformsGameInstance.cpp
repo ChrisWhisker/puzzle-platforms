@@ -9,7 +9,7 @@
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance()
 {
 	const ConstructorHelpers::FClassFinder<UUserWidget> MenuBPClass(
-		TEXT("/Game/PuzzlePlatforms/Blueprints/WBP_MainMenu"));
+		TEXT("/Game/PuzzlePlatforms/Menu/WBP_MainMenu"));
 
 	MenuClass = MenuBPClass.Class;
 }
