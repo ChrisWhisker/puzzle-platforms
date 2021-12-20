@@ -23,7 +23,7 @@ void UPuzzlePlatformsGameInstance::Host()
 
 	UWorld* World = GetWorld();
 	if (World)
-		World->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap?listen");
+		World->ServerTravel("/Game/PuzzlePlatforms/Maps/ThirdPersonExampleMap?listen");
 }
 
 void UPuzzlePlatformsGameInstance::Join(const FString& Address)
