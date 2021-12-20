@@ -27,23 +27,28 @@ public:
 	void RemoveCharacterOnTrigger();
 
 private:
-	////////// FUNCTIONS //////////
-	UPROPERTY(Category = "Activation", VisibleAnywhere)
+	////////// PROPERTIES //////////
+	UPROPERTY(Category = Activation, VisibleAnywhere)
 	int CharactersOnTrigger = 0;
 
-	UPROPERTY(Category = "Activation", EditAnywhere)
+	UPROPERTY(Category = Activation, EditAnywhere)
 	int RequiredCharacters = 0;
-	
-	UPROPERTY(Category = "Movement", EditAnywhere)
+
+	UPROPERTY(Category = Movement, EditAnywhere)
 	float Speed = 100;
 
-	UPROPERTY(Category = "Movement", VisibleAnywhere)
+	UPROPERTY(Category = Movement, VisibleAnywhere)
 	FVector GlobalStartLocation;
 
-	UPROPERTY(Category = "Movement", VisibleAnywhere)
+	UPROPERTY(Category = Movement, VisibleAnywhere)
 	FVector GlobalTargetLocation;
 
-	UPROPERTY(Category = "Movement", EditAnywhere, Meta = (MakeEditWidget = true))
+	UPROPERTY(Category = Movement, EditAnywhere, Meta = (MakeEditWidget = true))
 	FVector TargetLocation;
 
+	// Set to 0 if platform shouldn't hover.
+	UPROPERTY(Category = Movement, EditAnywhere)
+	float HoverHeight = 10.f;
+
+	float RunningTime = 0.f;
 };
