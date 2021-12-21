@@ -23,6 +23,9 @@ public:
 	UFUNCTION(Exec, BlueprintCallable)
 	void LoadMenu();
 
+	UFUNCTION(Exec, BlueprintCallable)
+	void LoadPauseMenu();
+
 	UFUNCTION(Exec)
 	void Host();
 
@@ -30,7 +33,8 @@ public:
 	void Join(const FString& Address);
 
 private:
-	TSubclassOf<class UUserWidget> MenuClass;
+	TSubclassOf<class UUserWidget> MainMenuClass;
+	TSubclassOf<class UUserWidget> PauseMenuClass;
 
 	class UMainMenu* Menu;
 };

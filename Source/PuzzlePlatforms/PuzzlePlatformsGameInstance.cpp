@@ -4,13 +4,18 @@
 #include "PuzzlePlatformsGameInstance.h"
 #include "Blueprint/UserWidget.h"
 #include "Menu/MainMenu.h"
+#include "Menu/MenuWidget.h"
+#include "Menu/PauseMenu.h"
 
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance()
 {
 	const ConstructorHelpers::FClassFinder<UUserWidget> MenuBPClass(
 		TEXT("/Game/PuzzlePlatforms/Menu/WBP_MainMenu"));
+	MainMenuClass = MenuBPClass.Class;
 
-	MenuClass = MenuBPClass.Class;
+	const ConstructorHelpers::FClassFinder<UUserWidget> PauseMenuBPClass(
+		TEXT("/Game/PuzzlePlatforms/Menu/WBP_PauseMenu"));
+	PauseMenuClass = PauseMenuBPClass.Class;
 }
 
 void UPuzzlePlatformsGameInstance::Init()
@@ -20,12 +25,23 @@ void UPuzzlePlatformsGameInstance::Init()
 
 void UPuzzlePlatformsGameInstance::LoadMenu()
 {
-	if (MenuClass)
+	if (MainMenuClass)
 	{
-		Menu = CreateWidget<UMainMenu>(this, MenuClass);
+		Menu = CreateWidget<UMainMenu>(this, MainMenuClass);
 		if (!Menu) { return; }
 		Menu->Setup();
 		Menu->SetMenuInterface(this);
+	}
+}
+
+void UPuzzlePlatformsGameInstance::LoadPauseMenu()
+{
+	if (PauseMenuClass)
+	{
+		UPauseMenu* PauseMenu = CreateWidget<UPauseMenu>(this, PauseMenuClass);
+		if (!PauseMenu) { return; }
+		PauseMenu->Setup();
+		PauseMenu->SetMenuInterface(this);
 	}
 }
 

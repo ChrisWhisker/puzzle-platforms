@@ -28,41 +28,7 @@ bool UMainMenu::Initialize()
 	return true;
 }
 
-void UMainMenu::SetMenuInterface(IMenuInterface* Interface)
-{
-	MenuInterface = Interface;
-}
 
-void UMainMenu::Setup()
-{
-	AddToViewport();
-
-	UWorld* World = GetWorld();
-	if (World == nullptr) { return; }
-	APlayerController* Controller = World->GetFirstPlayerController();
-	if (!Controller) { return; }
-
-	bIsFocusable = true;
-	FInputModeUIOnly InputModeData;
-	InputModeData.SetWidgetToFocus(TakeWidget());
-	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::LockInFullscreen);
-	Controller->SetInputMode(InputModeData);
-	Controller->bShowMouseCursor = true;
-}
-
-void UMainMenu::Hide()
-{
-	UWorld* World = GetWorld();
-	if (World == nullptr) { return; }
-	APlayerController* Controller = World->GetFirstPlayerController();
-	if (!Controller) { return; }
-
-	bIsFocusable = false;
-	const FInputModeGameOnly InputModeData;
-	Controller->SetInputMode(InputModeData);
-	Controller->bShowMouseCursor = false;
-	RemoveFromViewport();
-}
 
 void UMainMenu::OpenJoinMenu()
 {
