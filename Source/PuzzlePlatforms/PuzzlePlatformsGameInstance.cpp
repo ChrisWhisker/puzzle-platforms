@@ -22,7 +22,7 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 {
 	if (MenuClass)
 	{
-		UMainMenu* Menu = CreateWidget<UMainMenu>(this, MenuClass);
+		Menu = CreateWidget<UMainMenu>(this, MenuClass);
 		if (!Menu) { return; }
 		Menu->Setup();
 		Menu->SetMenuInterface(this);
@@ -31,9 +31,6 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 
 void UPuzzlePlatformsGameInstance::Host()
 {
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Hosting..."));
-
 	UWorld* World = GetWorld();
 	if (World)
 		World->ServerTravel("/Game/PuzzlePlatforms/Maps/ThirdPersonExampleMap?listen");

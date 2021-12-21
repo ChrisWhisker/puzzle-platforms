@@ -38,6 +38,22 @@ void UMainMenu::Setup()
 	Controller->bShowMouseCursor = true;
 }
 
+void UMainMenu::OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld)
+{
+	Super::OnLevelRemovedFromWorld(InLevel, InWorld);
+
+	UWorld* World = GetWorld();
+	if (World == nullptr) { return; }
+	APlayerController* Controller = World->GetFirstPlayerController();
+	if (!Controller) { return; }
+
+	bIsFocusable = false;
+	const FInputModeGameOnly InputModeData;
+	Controller->SetInputMode(InputModeData);
+	Controller->bShowMouseCursor = false;
+	RemoveFromViewport();
+}
+
 void UMainMenu::HostServer()
 {
 	if (MenuInterface != nullptr)
