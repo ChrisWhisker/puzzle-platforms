@@ -2,9 +2,8 @@
 
 
 #include "PuzzlePlatformsGameInstance.h"
-
 #include "Blueprint/UserWidget.h"
-
+#include "Menu/MainMenu.h"
 
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance()
 {
@@ -23,18 +22,10 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 {
 	if (MenuClass)
 	{
-		UUserWidget* Menu = CreateWidget<UUserWidget>(this, MenuClass);
+		UMainMenu* Menu = CreateWidget<UMainMenu>(this, MenuClass);
 		if (!Menu) { return; }
-		Menu->AddToViewport();
-		
-		APlayerController* Controller = GetFirstLocalPlayerController();
-		if (!Controller) { return; }
-		
-		FInputModeUIOnly InputModeData;
-		InputModeData.SetWidgetToFocus(Menu->TakeWidget());
-		InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::LockInFullscreen);
-		Controller->SetInputMode(InputModeData);
-		Controller->bShowMouseCursor = true;
+		Menu->Setup();
+		Menu->SetMenuInterface(this);
 	}
 }
 
