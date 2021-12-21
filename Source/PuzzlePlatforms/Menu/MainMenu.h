@@ -20,20 +20,47 @@ public:
 
 	void Setup();
 
-	virtual void OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld) override;
+	void Hide();
 
 protected:
 	virtual bool Initialize() override;
 
 private:
 	UPROPERTY(meta = (BindWidget))
+	class UWidget* MainMenu;
+
+	UPROPERTY(meta = (BindWidget))
+	class UWidget* JoinMenu;
+
+	UPROPERTY(meta = (BindWidget))
 	class UButton* HostButton;
 
 	UPROPERTY(meta = (BindWidget))
-	class UButton* JoinButton;
+	class UButton* JoinMenuButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* CancelButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* JoinGameButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UWidgetSwitcher* MenuSwitcher;
+
+	UPROPERTY(meta = (BindWidget))
+	class UEditableTextBox* IPAddressBox;
 
 	UFUNCTION()
 	void HostServer();
+
+	UFUNCTION()
+	void OpenJoinMenu();
+
+	UFUNCTION()
+	void OpenMainMenu();
+
+	UFUNCTION()
+	void JoinGame();
 
 	IMenuInterface* MenuInterface;
 };
