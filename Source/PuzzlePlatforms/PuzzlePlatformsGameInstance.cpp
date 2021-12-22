@@ -5,7 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Menu/MainMenu.h"
 #include "Menu/MenuWidget.h"
-#include "Menu/PauseMenu.h"
+#include "Menu/InGameMenu.h"
 
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance()
 {
@@ -13,9 +13,9 @@ UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance()
 		TEXT("/Game/PuzzlePlatforms/Menu/WBP_MainMenu"));
 	MainMenuClass = MenuBPClass.Class;
 
-	const ConstructorHelpers::FClassFinder<UUserWidget> PauseMenuBPClass(
-		TEXT("/Game/PuzzlePlatforms/Menu/WBP_PauseMenu"));
-	PauseMenuClass = PauseMenuBPClass.Class;
+	const ConstructorHelpers::FClassFinder<UUserWidget> InGameMenuBPClass(
+		TEXT("/Game/PuzzlePlatforms/Menu/WBP_InGameMenu"));
+	InGameMenuClass = InGameMenuBPClass.Class;
 }
 
 void UPuzzlePlatformsGameInstance::Init()
@@ -34,14 +34,14 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 	}
 }
 
-void UPuzzlePlatformsGameInstance::LoadPauseMenu()
+void UPuzzlePlatformsGameInstance::LoadInGameMenu()
 {
-	if (PauseMenuClass)
+	if (InGameMenuClass)
 	{
-		UPauseMenu* PauseMenu = CreateWidget<UPauseMenu>(this, PauseMenuClass);
-		if (!PauseMenu) { return; }
-		PauseMenu->Setup();
-		PauseMenu->SetMenuInterface(this);
+		UInGameMenu* InGameMenu = CreateWidget<UInGameMenu>(this, InGameMenuClass);
+		if (!InGameMenu) { return; }
+		InGameMenu->Setup();
+		InGameMenu->SetMenuInterface(this);
 	}
 }
 

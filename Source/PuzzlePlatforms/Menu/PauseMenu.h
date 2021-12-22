@@ -16,7 +16,6 @@ class PUZZLEPLATFORMS_API UPauseMenu : public UMenuWidget
 	GENERATED_BODY()
 
 public:
-
 protected:
 	virtual bool Initialize() override;
 
@@ -28,7 +27,10 @@ private:
 	class UButton* QuitButton;
 
 	UFUNCTION()
-	void OpenMainMenu();
+	void CloseMenu();
+
+	UFUNCTION()
+	void OpenMainMenuMap();
 
 	IMenuInterface* MenuInterface;
 };

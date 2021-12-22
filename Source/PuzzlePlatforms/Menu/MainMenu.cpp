@@ -4,7 +4,6 @@
 #include "MainMenu.h"
 #include "Components/Button.h"
 #include "Components/EditableTextBox.h"
-#include "Components/Widget.h"
 #include "Components/WidgetSwitcher.h"
 #include "PuzzlePlatforms/PuzzlePlatformsGameInstance.h"
 
@@ -27,8 +26,6 @@ bool UMainMenu::Initialize()
 
 	return true;
 }
-
-
 
 void UMainMenu::OpenJoinMenu()
 {
@@ -67,15 +64,7 @@ void UMainMenu::JoinGame()
 
 	if (MenuInterface != nullptr)
 	{
-		// try
-		// {
 		Hide();
 		MenuInterface->Join(Address);
-		// }
-		// catch (const std::exception& e)
-		// {
-		// 	UE_LOG(LogTemp, Error, TEXT("%s"), e);
-		// 	UE_LOG(LogTemp, Error, TEXT("[%s] is not a valid IP address."), *Address);
-		// }
 	}
 }
