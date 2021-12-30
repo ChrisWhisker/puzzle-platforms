@@ -24,6 +24,9 @@ bool UMainMenu::Initialize()
 	if (!JoinGameButton) { return false; }
 	JoinGameButton->OnClicked.AddDynamic(this, &UMainMenu::JoinGame);
 
+	if (!QuitGameButton) { return false; }
+	QuitGameButton->OnClicked.AddDynamic(this, &UMainMenu::QuitToDesktop);
+
 	return true;
 }
 
@@ -67,4 +70,9 @@ void UMainMenu::JoinGame()
 		Hide();
 		MenuInterface->Join(Address);
 	}
+}
+
+void UMainMenu::QuitToDesktop()
+{
+	GetOwningPlayer()->ConsoleCommand("Quit");
 }

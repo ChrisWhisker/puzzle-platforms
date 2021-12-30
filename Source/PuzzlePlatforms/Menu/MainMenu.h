@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "MenuWidget.h"
-#include "MenuWidget.h"
 #include "MainMenu.generated.h"
 
 /**
@@ -39,6 +38,9 @@ private:
 	class UButton* JoinGameButton;
 
 	UPROPERTY(meta = (BindWidget))
+	class UButton* QuitGameButton;
+
+	UPROPERTY(meta = (BindWidget))
 	class UWidgetSwitcher* MenuSwitcher;
 
 	UPROPERTY(meta = (BindWidget))
@@ -55,4 +57,7 @@ private:
 
 	UFUNCTION()
 	void JoinGame();
+
+	UFUNCTION()
+	void QuitToDesktop();
 };
