@@ -10,18 +10,28 @@ bool UInGameMenu::Initialize()
 	if (!SuperSuccess) { return false; }
 
 	if (!CancelButton) { return false; }
-	CancelButton->OnClicked.AddDynamic(this, &UInGameMenu::CloseMenu);
+	CancelButton->OnClicked.AddDynamic(this, &UInGameMenu::CancelPressed);
 
 	if (!QuitButton) { return false; }
-	QuitButton->OnClicked.AddDynamic(this, &UInGameMenu::OpenMainMenuMap);
+	QuitButton->OnClicked.AddDynamic(this, &UInGameMenu::QuitPressed);
 
 	return true;
 }
 
-void UInGameMenu::CloseMenu()
+void UInGameMenu::CancelPressed()
 {
+	Hide();
 }
 
-void UInGameMenu::OpenMainMenuMap()
+void UInGameMenu::QuitPressed()
 {
+	if (MenuInterface != nullptr)
+	{
+		Hide();
+		MenuInterface->LoadMainMenuMap();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("MenuInterface not found."));
+	}
 }

@@ -27,10 +27,10 @@ private:
 	class UButton* QuitButton;
 
 	UFUNCTION()
-	void CloseMenu();
+	void CancelPressed();
 
 	UFUNCTION()
-	void OpenMainMenuMap();
+	void QuitPressed();
 
 	IMenuInterface* MenuInterface;
 };

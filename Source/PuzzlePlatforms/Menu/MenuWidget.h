@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MenuInterface.h"
 #include "Blueprint/UserWidget.h"
 #include "MenuWidget.generated.h"
 
@@ -15,11 +16,11 @@ class PUZZLEPLATFORMS_API UMenuWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void SetMenuInterface(class IMenuInterface* Interface);
-
 	void Setup();
 
 	void Hide();
+
+	void SetMenuInterface(IMenuInterface* Interface);
 
 protected:
 	IMenuInterface* MenuInterface;

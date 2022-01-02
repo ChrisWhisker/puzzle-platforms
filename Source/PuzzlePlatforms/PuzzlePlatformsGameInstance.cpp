@@ -9,8 +9,7 @@
 
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance()
 {
-	const ConstructorHelpers::FClassFinder<UUserWidget> MenuBPClass(
-		TEXT("/Game/PuzzlePlatforms/Menu/WBP_MainMenu"));
+	const ConstructorHelpers::FClassFinder<UUserWidget> MenuBPClass(TEXT("/Game/PuzzlePlatforms/Menu/WBP_MainMenu"));
 	MainMenuClass = MenuBPClass.Class;
 
 	const ConstructorHelpers::FClassFinder<UUserWidget> InGameMenuBPClass(
@@ -23,18 +22,39 @@ void UPuzzlePlatformsGameInstance::Init()
 	Super::Init();
 }
 
-void UPuzzlePlatformsGameInstance::LoadMenu()
+void UPuzzlePlatformsGameInstance::LoadMainMenu()
 {
-	if (MainMenuClass)
+	if (!MainMenuClass) { return; }
+
+	MainMenu = CreateWidget<UMainMenu>(this, MainMenuClass);
+	if (!MainMenu) { return; }
+
+	MainMenu->Setup();
+	MainMenu->SetMenuInterface(this);
+}
+
+void UPuzzlePlatformsGameInstance::LoadInGameMenu()
+{
+	if (!InGameMenuClass) { return; }
+
+	UMenuWidget* InGameMenu = CreateWidget<UMenuWidget>(this, InGameMenuClass);
+	if (!InGameMenu) { return; }
+
+	InGameMenu->Setup();
+	InGameMenu->SetMenuInterface(this);
+}
 	{
 		Menu = CreateWidget<UMainMenu>(this, MainMenuClass);
 		if (!Menu) { return; }
 		Menu->Setup();
 		Menu->SetMenuInterface(this);
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		World->ServerTravel("/Game/PuzzlePlatforms/Maps/ThirdPersonExampleMap?listen");
 	}
 }
 
-void UPuzzlePlatformsGameInstance::LoadInGameMenu()
 {
 	if (InGameMenuClass)
 	{
@@ -58,5 +78,14 @@ void UPuzzlePlatformsGameInstance::Join(const FString& Address)
 	if (Controller)
 	{
 		Controller->ClientTravel(Address, ETravelType::TRAVEL_Absolute);
+	}
+}
+
+void UPuzzlePlatformsGameInstance::LoadMainMenuMap()
+{
+	APlayerController* Controller = GetFirstLocalPlayerController();
+	if (Controller)
+	{
+		Controller->ClientTravel("/Game/PuzzlePlatforms/Menu/MainMenu", ETravelType::TRAVEL_Absolute);
 	}
 }
