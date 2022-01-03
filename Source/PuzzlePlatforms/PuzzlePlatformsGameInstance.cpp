@@ -44,6 +44,7 @@ void UPuzzlePlatformsGameInstance::Init()
 
 			if (SessionSearch.IsValid())
 			{
+				SessionSearch->bIsLanQuery = true;
 				SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
 				UE_LOG(LogTemp, Warning, TEXT("Finding sessions..."));
 			}
@@ -110,7 +111,10 @@ void UPuzzlePlatformsGameInstance::CreateSession() const
 {
 	if (SessionInterface.IsValid())
 	{
-		const FOnlineSessionSettings SessionSettings;
+		FOnlineSessionSettings SessionSettings;
+		SessionSettings.bIsLANMatch = true;
+		SessionSettings.NumPublicConnections = 2;
+		SessionSettings.bShouldAdvertise = true;
 		SessionInterface->CreateSession(0, SESSION_NAME, SessionSettings);
 	}
 }

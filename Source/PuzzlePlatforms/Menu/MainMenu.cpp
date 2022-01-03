@@ -55,7 +55,7 @@ void UMainMenu::HostServer()
 {
 	if (MenuInterface != nullptr)
 	{
-		Hide();
+		Teardown();
 		MenuInterface->Host();
 	}
 }
@@ -67,7 +67,7 @@ void UMainMenu::JoinGame()
 
 	if (MenuInterface != nullptr)
 	{
-		Hide();
+		Teardown();
 		MenuInterface->Join(Address);
 	}
 }

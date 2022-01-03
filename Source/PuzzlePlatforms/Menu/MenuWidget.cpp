@@ -5,36 +5,40 @@
 
 void UMenuWidget::Setup()
 {
-	AddToViewport();
+	this->AddToViewport();
 
 	UWorld* World = GetWorld();
 	if (World == nullptr) { return; }
+
 	APlayerController* Controller = World->GetFirstPlayerController();
-	if (!Controller) { return; }
+	if (Controller == nullptr) { return; }
 
 	bIsFocusable = true;
 	FInputModeUIOnly InputModeData;
-	InputModeData.SetWidgetToFocus(TakeWidget());
-	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::LockInFullscreen);
+	InputModeData.SetWidgetToFocus(this->TakeWidget());
+	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 	Controller->SetInputMode(InputModeData);
 	Controller->bShowMouseCursor = true;
 }
 
-void UMenuWidget::Hide()
+void UMenuWidget::Teardown()
 {
-	UWorld* World = GetWorld();
-	if (World == nullptr) { return; }
-	APlayerController* Controller = World->GetFirstPlayerController();
-	if (!Controller) { return; }
+	this->RemoveFromViewport();
 
-	bIsFocusable = false;
-	const FInputModeGameOnly InputModeData;
-	Controller->SetInputMode(InputModeData);
-	Controller->bShowMouseCursor = false;
-	RemoveFromViewport();
+	UWorld* World = GetWorld();
+	if (!ensure(World != nullptr)) return;
+
+	APlayerController* PlayerController = World->GetFirstPlayerController();
+	if (!ensure(PlayerController != nullptr)) return;
+
+	FInputModeGameOnly InputModeData;
+	PlayerController->SetInputMode(InputModeData);
+
+	PlayerController->bShowMouseCursor = false;
 }
 
 void UMenuWidget::SetMenuInterface(IMenuInterface* Interface)
 {
-	MenuInterface = Interface;
+	this->MenuInterface = Interface;
+	UE_LOG(LogTemp, Warning, TEXT("MenuInterface is set on %s"), *this->StaticClass()->GetFName().ToString());
 }
