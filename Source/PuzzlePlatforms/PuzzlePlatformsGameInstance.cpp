@@ -161,6 +161,6 @@ void UPuzzlePlatformsGameInstance::LoadMainMenuMap()
 	APlayerController* Controller = GetFirstLocalPlayerController();
 	if (Controller)
 	{
-		Controller->ClientTravel("/Game/PuzzlePlatforms/Menu/MainMenu", ETravelType::TRAVEL_Absolute);
+		Controller->ClientTravel("/Game/PuzzlePlatforms/Maps/MainMenu", ETravelType::TRAVEL_Absolute);
 	}
 }
