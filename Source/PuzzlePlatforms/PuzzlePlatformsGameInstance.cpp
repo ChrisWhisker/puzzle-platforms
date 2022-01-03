@@ -5,7 +5,6 @@
 #include "Blueprint/UserWidget.h"
 #include "Menu/MainMenu.h"
 #include "Menu/MenuWidget.h"
-#include "Menu/InGameMenu.h"
 #include "OnlineSessionSettings.h"
 #include "OnlineSubsystem.h"
 
@@ -33,6 +32,7 @@ void UPuzzlePlatformsGameInstance::Init()
 		SessionInterface = Subsystem->GetSessionInterface();
 		if (SessionInterface.IsValid())
 		{
+			// Bind session delegates
 			SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(
 				this, &UPuzzlePlatformsGameInstance::OnCreateSessionComplete);
 			SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(
@@ -40,10 +40,12 @@ void UPuzzlePlatformsGameInstance::Init()
 			SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(
 				this, &UPuzzlePlatformsGameInstance::OnFindSessionsComplete);
 
+			// Make TSharedPtr
 			SessionSearch = MakeShareable(new FOnlineSessionSearch());
 
 			if (SessionSearch.IsValid())
 			{
+				SessionSearch->bIsLanQuery = true;
 				SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
 				UE_LOG(LogTemp, Warning, TEXT("Finding sessions..."));
 			}
@@ -51,7 +53,7 @@ void UPuzzlePlatformsGameInstance::Init()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("IOnlineSubsystem is null."));
+		UE_LOG(LogTemp, Error, TEXT("IOnlineSubsystem is not found."));
 	}
 }
 
@@ -81,7 +83,7 @@ void UPuzzlePlatformsGameInstance::OnCreateSessionComplete(FName SessionName, bo
 {
 	if (!bSuccess)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Could not create session."));
+		UE_LOG(LogTemp, Error, TEXT("Could not create session."));
 		return;
 	}
 
@@ -93,9 +95,18 @@ void UPuzzlePlatformsGameInstance::OnCreateSessionComplete(FName SessionName, bo
 }
 
 
-void UPuzzlePlatformsGameInstance::OnFindSessionsComplete(bool bSuccess) const
+void UPuzzlePlatformsGameInstance::OnFindSessionsComplete(const bool bSuccess) const
 {
-	UE_LOG(LogTemp, Warning, TEXT("Session found."));
+	if (bSuccess && SessionSearch.IsValid())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("OnFindSessionsComplete() was a success."));
+
+		// Print all session IDs
+		for (FOnlineSessionSearchResult& Result : SessionSearch->SearchResults)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Session found: %s"), *Result.Session.GetSessionIdStr());
+		}
+	}
 }
 
 void UPuzzlePlatformsGameInstance::OnDestroySessionComplete(FName SessionName, bool bSuccess) const
@@ -110,7 +121,11 @@ void UPuzzlePlatformsGameInstance::CreateSession() const
 {
 	if (SessionInterface.IsValid())
 	{
-		const FOnlineSessionSettings SessionSettings;
+		// Configure and create session
+		FOnlineSessionSettings SessionSettings;
+		SessionSettings.bIsLANMatch = true;
+		SessionSettings.NumPublicConnections = 2;
+		SessionSettings.bShouldAdvertise = true;
 		SessionInterface->CreateSession(0, SESSION_NAME, SessionSettings);
 	}
 }

@@ -47,7 +47,7 @@ private:
 
 	void OnDestroySessionComplete(FName SessionName, bool bSuccess) const;
 
-	void OnFindSessionsComplete(bool bSuccess) const;
+	void OnFindSessionsComplete(const bool bSuccess) const;
 
 	void CreateSession() const;
 };
