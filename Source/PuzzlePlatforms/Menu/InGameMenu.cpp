@@ -20,18 +20,18 @@ bool UInGameMenu::Initialize()
 
 void UInGameMenu::CancelPressed()
 {
-	Teardown();
+	Hide();
 }
 
 void UInGameMenu::QuitPressed()
 {
 	if (MenuInterface != nullptr)
 	{
-		Teardown();
+		Hide();
 		MenuInterface->LoadMainMenuMap();
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("MenuInterface not found on %s."), *this->StaticClass()->GetFName().ToString());
+		UE_LOG(LogTemp, Error, TEXT("MenuInterface not found."));
 	}
 }

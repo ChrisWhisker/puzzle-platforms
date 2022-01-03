@@ -18,7 +18,7 @@ class PUZZLEPLATFORMS_API UMenuWidget : public UUserWidget
 public:
 	void Setup();
 
-	void Teardown();
+	void Hide();
 
 	void SetMenuInterface(IMenuInterface* Interface);
 
