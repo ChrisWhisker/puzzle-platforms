@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MenuInterface.h"
 #include "MenuWidget.h"
 #include "InGameMenu.generated.h"
 
@@ -31,6 +30,4 @@ private:
 
 	UFUNCTION()
 	void QuitPressed();
-
-	IMenuInterface* MenuInterface;
 };
