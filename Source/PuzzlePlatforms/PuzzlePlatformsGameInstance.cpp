@@ -34,12 +34,10 @@ void UPuzzlePlatformsGameInstance::Init()
 		if (SessionInterface.IsValid())
 		{
 			// Bind session delegates
-			SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(
-				this, &UPuzzlePlatformsGameInstance::OnCreateSessionComplete);
-			SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(
-				this, &UPuzzlePlatformsGameInstance::OnDestroySessionComplete);
-			SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(
-				this, &UPuzzlePlatformsGameInstance::OnFindSessionsComplete);
+			SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnCreateSessionComplete);
+			SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnDestroySessionComplete);
+			SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnFindSessionsComplete);
+			SessionInterface->OnJoinSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnJoinSessionComplete);
 		}
 	}
 	else
@@ -116,6 +114,22 @@ void UPuzzlePlatformsGameInstance::OnFindSessionsComplete(const bool bSuccess) c
 	}
 }
 
+void UPuzzlePlatformsGameInstance::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
+{
+	if (!SessionInterface.IsValid()) { return; }
+
+	FString Address;
+	if (!SessionInterface->GetResolvedConnectString(SessionName, OUT Address))
+	{
+		UE_LOG(LogTemp, Error, TEXT("Could not get connect string."));
+		return;
+	}
+
+	APlayerController* Controller = GetFirstLocalPlayerController();
+	if (!Controller) { return; }
+	Controller->ClientTravel(Address, ETravelType::TRAVEL_Absolute);
+}
+
 void UPuzzlePlatformsGameInstance::OnDestroySessionComplete(FName SessionName, bool bSuccess) const
 {
 	if (bSuccess)
@@ -154,19 +168,17 @@ void UPuzzlePlatformsGameInstance::Host()
 	}
 }
 
-void UPuzzlePlatformsGameInstance::Join(const FString& Address)
+void UPuzzlePlatformsGameInstance::Join(uint32 Index)
 {
+	if (!SessionInterface.IsValid()) { return; }
+	if (!SessionSearch.IsValid()) { return; }
+
 	if (MainMenu != nullptr)
 	{
-		MainMenu->SetServerList({"Test 1", "Test 2"});
-		// MainMenu->Hide();
+		MainMenu->Hide();
 	}
 
-	// APlayerController* Controller = GetFirstLocalPlayerController();
-	// if (Controller)
-	// {
-	// 	Controller->ClientTravel(Address, ETravelType::TRAVEL_Absolute);
-	// }
+	SessionInterface->JoinSession(0, SESSION_NAME, SessionSearch->SearchResults[Index]);
 }
 
 void UPuzzlePlatformsGameInstance::LoadMainMenuMap()

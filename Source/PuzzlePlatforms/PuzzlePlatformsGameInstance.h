@@ -28,7 +28,7 @@ public:
 	virtual void Host() override;
 
 	UFUNCTION(Exec)
-	virtual void Join(const FString& Address) override;
+	virtual void Join(uint32 Index) override;
 
 	virtual void LoadMainMenuMap() override;
 
@@ -36,6 +36,7 @@ public:
 
 private:
 	TSubclassOf<class UUserWidget> MainMenuClass;
+
 	TSubclassOf<class UUserWidget> InGameMenuClass;
 
 	UPROPERTY()
@@ -50,6 +51,8 @@ private:
 	void OnDestroySessionComplete(FName SessionName, bool bSuccess) const;
 
 	void OnFindSessionsComplete(const bool bSuccess) const;
+
+	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 
 	void CreateSession() const;
 };

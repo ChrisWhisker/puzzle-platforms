@@ -102,30 +102,15 @@ void UMainMenu::SelectIndex(uint32 Index)
 
 void UMainMenu::JoinServer()
 {
-	if (SelectedIndex.IsSet())
+	if (SelectedIndex.IsSet() && MenuInterface != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Selected index is %d"), SelectedIndex.GetValue());
+		MenuInterface->Join(SelectedIndex.GetValue());
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Selected index is not set"));
+		UE_LOG(LogTemp, Warning, TEXT("SelectedIndex or MenuInterfaceis not set"));
 	}
-
-	if (MenuInterface != nullptr)
-	{
-		// FString& Address =
-		MenuInterface->Join("");
-	}
-
-
-	// if (IPAddressBox == nullptr) { return; }
-	// const FString Address = IPAddressBox->GetText().ToString();
-	//
-	// if (MenuInterface != nullptr)
-	// {
-	// 	Hide();
-	// 	MenuInterface->Join(Address);
-	// }
 }
 
 void UMainMenu::QuitToDesktop()
