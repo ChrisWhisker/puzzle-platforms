@@ -7,15 +7,16 @@
 #include "Menu/MenuWidget.h"
 #include "OnlineSessionSettings.h"
 #include "OnlineSubsystem.h"
+#include "UObject/ConstructorHelpers.h"
 
 const static FName SESSION_NAME = TEXT("My Session");
 
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance()
 {
-	const ConstructorHelpers::FClassFinder<UUserWidget> MenuBPClass(TEXT("/Game/PuzzlePlatforms/Menu/WBP_MainMenu"));
+	ConstructorHelpers::FClassFinder<UUserWidget> MenuBPClass(TEXT("/Game/PuzzlePlatforms/Menu/WBP_MainMenu"));
 	MainMenuClass = MenuBPClass.Class;
-	
-	const ConstructorHelpers::FClassFinder<UUserWidget> InGameMenuBPClass(TEXT("/Game/PuzzlePlatforms/Menu/WBP_InGameMenu"));
+
+	ConstructorHelpers::FClassFinder<UUserWidget> InGameMenuBPClass(TEXT("/Game/PuzzlePlatforms/Menu/WBP_InGameMenu"));
 	InGameMenuClass = InGameMenuBPClass.Class;
 }
 
@@ -97,9 +98,11 @@ void UPuzzlePlatformsGameInstance::CreateSession() const
 	{
 		// Configure and create session
 		FOnlineSessionSettings SessionSettings;
-		SessionSettings.bIsLANMatch = true;
+		SessionSettings.bIsLANMatch = false;
 		SessionSettings.NumPublicConnections = 2;
 		SessionSettings.bShouldAdvertise = true;
+		SessionSettings.bUsesPresence = true;
+		SessionSettings.bUseLobbiesIfAvailable = true;
 		SessionInterface->CreateSession(0, SESSION_NAME, SessionSettings);
 	}
 }
@@ -127,6 +130,7 @@ void UPuzzlePlatformsGameInstance::RefreshServerList()
 	if (SessionSearch.IsValid())
 	{
 		SessionSearch->bIsLanQuery = true;
+		SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
 		SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
 		UE_LOG(LogTemp, Warning, TEXT("Finding sessions..."));
 	}

@@ -9,11 +9,11 @@
 #include "Components/TextBlock.h"
 #include "Components/WidgetSwitcher.h"
 #include "PuzzlePlatforms/PuzzlePlatformsGameInstance.h"
+#include "UObject/ConstructorHelpers.h"
 
 UMainMenu::UMainMenu(const FObjectInitializer& ObjectInitializer)
 {
-	const ConstructorHelpers::FClassFinder<UUserWidget> ServerRowBPClass(
-		TEXT("/Game/PuzzlePlatforms/Menu/WBP_ServerRow"));
+	ConstructorHelpers::FClassFinder<UUserWidget> ServerRowBPClass(TEXT("/Game/PuzzlePlatforms/Menu/WBP_ServerRow"));
 	ServerRowClass = ServerRowBPClass.Class;
 }
 
@@ -55,11 +55,6 @@ void UMainMenu::OpenJoinMenu()
 
 void UMainMenu::OpenMainMenu()
 {
-	// if (IPAddressBox != nullptr)
-	// {
-	// 	IPAddressBox->SetText(FText());
-	// }
-
 	if (MenuSwitcher != nullptr && MainMenu != nullptr)
 	{
 		MenuSwitcher->SetActiveWidget(MainMenu);
